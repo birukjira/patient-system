@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import DoctorDashboard from "./components/DoctorDashboard";
-import PatientDisplay from "./components/PatientDisplay";
+import TVScreen from "./components/TVScreen";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<DoctorDashboard />} />
-        <Route path="/tv" element={<PatientDisplay />} />
+        <Route path="/tv/:department" element={<TVScreen />} />
       </Routes>
     </Router>
   );

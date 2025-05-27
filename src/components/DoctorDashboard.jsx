@@ -1,56 +1,96 @@
 import React, { useEffect, useState } from "react";
 
 const DoctorDashboard = () => {
-  const [patients, setPatients] = useState([]);
-  const [socket, setSocket] = useState(null);
+  const [patients, setPatients] = useState([
+    { id: 1, name: "Ayan Mohamed", room: "101", department: "radiology" },
+    { id: 2, name: "Tadessse Alemu", room: "102", department: "pharmacy" },
+    { id: 3, name: "Fatima Yusuf", room: "103", department: "radiology" },
+    { id: 4, name: "Hassan Ali", room: "104", department: "pharmacy" },
+    { id: 5, name: "Zainab Abdi", room: "105", department: "radiology" },
+    { id: 6, name: "Mohamed Farah", room: "106", department: "pharmacy" },
+    { id: 7, name: "Aisha Nur", room: "107", department: "radiology" },
+    { id: 8, name: "Omar Hassan", room: "108", department: "pharmacy" },
+    { id: 9, name: "Layla Ahmed", room: "109", department: "radiology" },
+    { id: 10, name: "Yusuf Ibrahim", room: "110", department: "pharmacy" },
+    { id: 11, name: "Sara Mohamed", room: "111", department: "radiology" },
+    { id: 12, name: "Ali Nur", room: "112", department: "pharmacy" },
+    { id: 13, name: "Hawa Abdi", room: "113", department: "radiology" },
+    { id: 14, name: "Khadija Farah", room: "114", department: "pharmacy" },
+    { id: 15, name: "Abdi Hassan", room: "115", department: "radiology" },
+    { id: 16, name: "Amina Yusuf", room: "116", department: "pharmacy" },
+    { id: 17, name: "Mohamed Ali", room: "117", department: "radiology" },
+    { id: 18, name: "Fatima Nur", room: "118", department: "pharmacy" },
+    { id: 19, name: "Hassan Abdi", room: "119", department: "radiology" },
+    { id: 20, name: "Zainab Farah", room: "120", department: "pharmacy" },
+  ]);
+  const [calledPatients, setCalledPatients] = useState([]);
 
-  useEffect(() => {
-    // Sample patient queue
-    const dummyPatients = [
-      { id: 1, name: "Ayan Mohamed", room: "101" },
-      { id: 2, name: "Tadesse Alemu", room: "102" },
-      { id: 3, name: "Fatuma Yusuf", room: "103" },
-    ];
-    setPatients(dummyPatients);
+  const callPatient = (patient) => {
+    const timestamp = new Date();
 
-    const ws = new WebSocket("ws://localhost:3000");
-    setSocket(ws);
+    const socket = new WebSocket("ws://localhost:3000");
+    socket.onopen = () => {
+      socket.send(JSON.stringify({ patient, department: patient.department }));
+      socket.close();
+    };
 
-    return () => ws.close();
-  }, []);
-
-  const handleCall = (patient) => {
-    if (socket?.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({ patient }));
-      // alert(`Patient called: ${patient.name}`);
-    } else {
-      alert("WebSocket not connected");
-    }
+    setCalledPatients((prev) => [
+      { ...patient, calledAt: timestamp },
+      ...prev.slice(0, 9),
+    ]);
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Doctor's Dashboard</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Room</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="p-8 space-y-6 bg-gray-50 min-h-screen text-gray-800">
+      <h1 className="text-3xl font-bold">Doctor Dashboard</h1>
+
+      <div>
+        <h2 className="text-xl font-semibold">Waiting Patients</h2>
+        <ul className="space-y-2">
           {patients.map((p) => (
-            <tr key={p.id}>
-              <td>{p.name}</td>
-              <td>{p.room}</td>
-              <td>
-                <button onClick={() => handleCall(p)}>Call</button>
-              </td>
-            </tr>
+            <li
+              key={p.id}
+              className="bg-white p-4 rounded shadow flex justify-between items-center"
+            >
+              <span>
+                {p.name} - Room {p.room} - Department: {p.department}
+              </span>
+
+              <button
+                onClick={() => callPatient(p)}
+                className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Call
+              </button>
+            </li>
           ))}
-        </tbody>
-      </table>
+        </ul>
+      </div>
+
+      <div>
+        <h2 className="text-xl font-semibold">Call History</h2>
+        <ul className="space-y-1">
+          {calledPatients.map((p, idx) => (
+            <li key={idx} className="text-sm text-gray-600">
+              {p.name} at {new Date(p.calledAt).toLocaleTimeString()}
+            </li>
+          ))}
+        </ul>
+        <h2>Analytics</h2>
+        <p>Total Patients Called: {calledPatients.length}</p>
+
+        <p>
+          Average Wait Time (simulated):{" "}
+          {(() => {
+            if (calledPatients.length === 0) return "N/A";
+            const totalWait = calledPatients.reduce((sum, p) => {
+              const wait = Math.floor(Math.random() * 10) + 1; // simulate 1–10 min
+              return sum + wait;
+            }, 0);
+            return `${(totalWait / calledPatients.length).toFixed(1)} minutes`;
+          })()}
+        </p>
+      </div>
     </div>
   );
 };
