@@ -1,29 +1,15 @@
 import React, { useEffect, useState } from "react";
+import patientsData from "../api/patients.json";
 
 const DoctorDashboard = () => {
-  const [patients, setPatients] = useState([
-    { id: 1, name: "Ayan Mohamed", room: "101", department: "radiology" },
-    { id: 2, name: "Tadessse Alemu", room: "102", department: "pharmacy" },
-    { id: 3, name: "Fatima Yusuf", room: "103", department: "radiology" },
-    { id: 4, name: "Hassan Ali", room: "104", department: "pharmacy" },
-    { id: 5, name: "Zainab Abdi", room: "105", department: "radiology" },
-    { id: 6, name: "Mohamed Farah", room: "106", department: "pharmacy" },
-    { id: 7, name: "Aisha Nur", room: "107", department: "radiology" },
-    { id: 8, name: "Omar Hassan", room: "108", department: "pharmacy" },
-    { id: 9, name: "Layla Ahmed", room: "109", department: "radiology" },
-    { id: 10, name: "Yusuf Ibrahim", room: "110", department: "pharmacy" },
-    { id: 11, name: "Sara Mohamed", room: "111", department: "radiology" },
-    { id: 12, name: "Ali Nur", room: "112", department: "pharmacy" },
-    { id: 13, name: "Hawa Abdi", room: "113", department: "radiology" },
-    { id: 14, name: "Khadija Farah", room: "114", department: "pharmacy" },
-    { id: 15, name: "Abdi Hassan", room: "115", department: "radiology" },
-    { id: 16, name: "Amina Yusuf", room: "116", department: "pharmacy" },
-    { id: 17, name: "Mohamed Ali", room: "117", department: "radiology" },
-    { id: 18, name: "Fatima Nur", room: "118", department: "pharmacy" },
-    { id: 19, name: "Hassan Abdi", room: "119", department: "radiology" },
-    { id: 20, name: "Zainab Farah", room: "120", department: "pharmacy" },
-  ]);
+  const [patients, setPatients] = useState([]);
   const [calledPatients, setCalledPatients] = useState([]);
+  useEffect(() => {
+    // Simulate API call delay
+    setTimeout(() => {
+      setPatients(patientsData);
+    }, 500);
+  }, []);
 
   const callPatient = (patient) => {
     const timestamp = new Date();

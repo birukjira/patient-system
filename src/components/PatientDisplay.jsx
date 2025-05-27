@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
 const PatientDisplay = ({ department }) => {
   const [currentPatient, setCurrentPatient] = useState(null);
@@ -14,6 +13,7 @@ const PatientDisplay = ({ department }) => {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      console.log("Received data:", data.patient.name, data.patient.room);
 
       // Only accept messages meant for this department
       if (data.department === department) {
@@ -24,33 +24,25 @@ const PatientDisplay = ({ department }) => {
       }
     };
 
-    return;
+    return () => {
+      socket.close();
+    };
   }, [department]);
 
   return (
-    <motion.div
-      // key={currentPatient.id}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
-      className="bg-white p-4 rounded shadow flex justify-between items-center"
-    >
-      <div
-        style={{ textAlign: "center", paddingTop: "100px", fontSize: "2rem" }}
-      >
-        <h1>{department.toUpperCase()} SCREEN</h1>
-        {currentPatient ? (
-          <>
-            <p>
-              <strong>{currentPatient.name}</strong>
-            </p>
-            <p>Room: {currentPatient.room}</p>
-          </>
-        ) : (
-          <p>No patient currently being called.</p>
-        )}
-      </div>
-    </motion.div>
+    <div style={{ textAlign: "center", paddingTop: "100px", fontSize: "2rem" }}>
+      <h1>{department.toUpperCase()} SCREEN</h1>
+      {currentPatient ? (
+        <>
+          <p>
+            <strong>{currentPatient.name}</strong>
+          </p>
+          <p>Room: {currentPatient.room}</p>
+        </>
+      ) : (
+        <p>No patient currently being called.</p>
+      )}
+    </div>
   );
 };
 

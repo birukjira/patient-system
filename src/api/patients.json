@@ -1,0 +1,27 @@
+[
+  {
+    "id": 21,
+    "name": "Omar Mohamed",
+    "room": "121",
+    "department": "radiology"
+  },
+  { "id": 22, "name": "Aisha Ali", "room": "122", "department": "pharmacy" },
+  { "id": 23, "name": "Layla Yusuf", "room": "123", "department": "radiology" },
+  { "id": 24, "name": "Yusuf Abdi", "room": "124", "department": "pharmacy" },
+  { "id": 25, "name": "Sara Farah", "room": "125", "department": "radiology" },
+  { "id": 26, "name": "Ali Hassan", "room": "126", "department": "pharmacy" },
+  { "id": 27, "name": "Hawa Nur", "room": "127", "department": "radiology" },
+  {
+    "id": 28,
+    "name": "Khadija Ahmed",
+    "room": "128",
+    "department": "pharmacy"
+  },
+  {
+    "id": 29,
+    "name": "Abdi Ibrahim",
+    "room": "129",
+    "department": "radiology"
+  },
+  { "id": 30, "name": "Amina Ali", "room": "130", "department": "pharmacy" }
+]
